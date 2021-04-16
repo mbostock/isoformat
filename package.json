@@ -1,6 +1,6 @@
 {
   "name": "isoformat",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A tidy ISO 8601 date formatter",
   "homepage": "https://github.com/mbostock/isoformat/",
   "license": "ISC",
