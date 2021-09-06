@@ -100,4 +100,7 @@ describe("parse", () => {
     assert.throws(() => parse("--09-06", error)); // ISO 8601 date without year
     assert.throws(() => parse("2021-249", error)); // ISO 8601 ordinal date
   });
+  it("passes the fallback function the input as a string", () => {
+    assert.strictEqual(parse({toString: () => "hello"}, x => x), "hello");
+  });
 });

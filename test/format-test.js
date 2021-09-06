@@ -55,6 +55,9 @@ describe("format", () => {
     assert.strictEqual(format(Date.UTC(2001, 9, 21, 1, 0, 1)), "2001-10-21T01:00:01Z");
     assert.strictEqual(format(Date.UTC(2001, 9, 21, 1, 0, 1, 123)), "2001-10-21T01:00:01.123Z");
   });
+  it("coerces the input to a number, and then a Date, if needed", () => {
+    assert.strictEqual(format({valueOf: () => Date.UTC(2020, 0, 1)}), "2020-01-01");
+  });
   it("returns the fallback value for noncompliant input", () => {
     assert.strictEqual(format(NaN), undefined);
     assert.strictEqual(format(new Date(NaN)), undefined);
@@ -71,5 +74,12 @@ describe("format", () => {
     assert.throws(() => format(new Date(NaN), error));
     assert.throws(() => format(NaN, error));
     assert.throws(() => format(new Date(NaN), error));
+  });
+  it("passes the fallback function the input as a Date", () => {
+    const invalid = new Date(NaN);
+    assert.strictEqual(format(NaN, x => x.toString()), "Invalid Date");
+    assert.strictEqual(format({valueOf: () => NaN}, x => x.toString()), "Invalid Date");
+    assert.strictEqual(format(new Date(NaN), x => x.toString()), "Invalid Date");
+    assert.strictEqual(format(invalid, x => x), invalid);
   });
 });
