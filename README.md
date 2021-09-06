@@ -1,10 +1,18 @@
 # isoformat
 
-Given a Date, **format**(*date*) returns the shortest equivalent ISO 8601 UTC string. If *date* is not a Date instance, it is assumed to represent milliseconds since UNIX epoch, coerced to a number, and then passed to the Date constructor. If *date* is not a valid date, the string `"Invalid Date"` is returned. (Unlike [*date*.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString), the format function returns a shorter, more human-readable string, and does not throw an error if the *date* is invalid.)
+This library implements a concise formatter and parser for ISO 8601 date and date-times. It is intended for use as an interchange format, for example in CSV, that is more human-readable than the full ISO date-time string used by [*date*.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
+
+To use:
 
 ```js
-import {format} from "isoformat";
+import {format, parse} from "isoformat";
+```
 
+### format(*date*, *fallback*)
+
+Given a Date, **format**(*date*) returns the shortest equivalent ISO 8601 UTC string. If *date* is not a Date instance, it is assumed to represent milliseconds since UNIX epoch. If *date* is not a valid date, returns the given *fallback* value, which defaults to undefined; if *fallback* is a function, it is invoked to produce a fallback value if needed, being passed the *date*.
+
+```js
 format(new Date(Date.UTC(2001, 0, 1))) // "2001-01-01"
 format(new Date(Date.UTC(2020, 0, 1, 12, 23))) // "2020-01-01T12:23Z"
 ```
@@ -18,11 +26,11 @@ The following forms may be returned by format:
 
 YYYY may also be represented as +YYYYYY or -YYYYYY.
 
-Given an ISO 8601 date or date-time string, **parse**(*string*) returns an equivalent Date instance. If *string* is not a valid ISO 8601 date or date-time string, returns null. (Unlike passing the given *string* to the Date constructor, the parse function validates the input against the ISO 8601 format and thereby ensures consistent representation and behavior across environments.)
+### parse(*date*, *fallback*)
+
+Given an ISO 8601 date or date-time string, **parse**(*string*) returns an equivalent Date instance. If *string* is not a valid ISO 8601 date or date-time string, returns the given *fallback* value, which defaults to undefined; if *fallback* is a function, it is invoked to produce a fallback value if needed, being passed the *string*.
 
 ```js
-import {parse} from "isoformat";
-
 parse("2001-01-01") // new Date(Date.UTC(2001, 0, 1))
 parse("2020-01-01T12:23Z") // new Date(Date.UTC(2020, 0, 1, 12, 23))
 ```

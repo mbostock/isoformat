@@ -55,4 +55,21 @@ describe("format", () => {
     assert.strictEqual(format(Date.UTC(2001, 9, 21, 1, 0, 1)), "2001-10-21T01:00:01Z");
     assert.strictEqual(format(Date.UTC(2001, 9, 21, 1, 0, 1, 123)), "2001-10-21T01:00:01.123Z");
   });
+  it("returns the fallback value for noncompliant input", () => {
+    assert.strictEqual(format(NaN), undefined);
+    assert.strictEqual(format(new Date(NaN)), undefined);
+  });
+  it("returns the specified fallback value for noncompliant input", () => {
+    assert.strictEqual(format(NaN, null), null);
+    assert.strictEqual(format(new Date(NaN), null), null);
+    assert.strictEqual(format(NaN, "Invalid Date"), "Invalid Date");
+    assert.strictEqual(format(new Date(NaN), "Invalid Date"), "Invalid Date");
+  });
+  it("invokes the fallback function for noncompliant input", () => {
+    const error = () => { throw new RangeError("invalid date"); };
+    assert.throws(() => format(NaN, error));
+    assert.throws(() => format(new Date(NaN), error));
+    assert.throws(() => format(NaN, error));
+    assert.throws(() => format(new Date(NaN), error));
+  });
 });

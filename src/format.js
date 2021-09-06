@@ -1,6 +1,6 @@
-export default function format(date) {
+export default function format(date, fallback) {
   if (!(date instanceof Date)) date = new Date(+date);
-  if (isNaN(date)) return "Invalid Date";
+  if (isNaN(date)) return typeof fallback === "function" ? fallback(date) : fallback;
   const hours = date.getUTCHours();
   const minutes = date.getUTCMinutes();
   const seconds = date.getUTCSeconds();

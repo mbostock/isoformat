@@ -69,14 +69,35 @@ describe("parse", () => {
     assert.deepStrictEqual(parse("2001-01-01T00:00:00.123-0130"), new Date(Date.UTC(2001, 0, 1, 1, 30, 0, 123))); // RFC 3339, but not ISO 8601
     assert.deepStrictEqual(parse("2001-01-01T00:00:00.123-01:30"), new Date(Date.UTC(2001, 0, 1, 1, 30, 0, 123))); // RFC 3339, but not ISO 8601
   });
-  it("returns null for noncompliant input", () => {
-    assert.strictEqual(parse("2001-01-01T00:00:00.123+00"), null); // ISO 8601, but not Chrome or Node
-    assert.strictEqual(parse("2001-01-01T00:00:00.123-01"), null); // ISO 8601, but not Chrome or Node
-    assert.strictEqual(parse("2001-01-01 00:00:00.123Z"), null); // RFC 3339, but not ISO 8601
-    assert.strictEqual(parse("2001-01-01t00:00:00.123Z"), null); // RFC 3339, but not ISO 8601
-    assert.strictEqual(parse("2021-W36"), null); // ISO 8601 week
-    assert.strictEqual(parse("2021-W36-1"), null); // ISO 8601 week with weekday
-    assert.strictEqual(parse("--09-06"), null); // ISO 8601 date without year
-    assert.strictEqual(parse("2021-249"), null); // ISO 8601 ordinal date
+  it("returns the fallback value for noncompliant input", () => {
+    assert.strictEqual(parse("2001-01-01T00:00:00.123+00"), undefined); // ISO 8601, but not Chrome or Node
+    assert.strictEqual(parse("2001-01-01T00:00:00.123-01"), undefined); // ISO 8601, but not Chrome or Node
+    assert.strictEqual(parse("2001-01-01 00:00:00.123Z"), undefined); // RFC 3339, but not ISO 8601
+    assert.strictEqual(parse("2001-01-01t00:00:00.123Z"), undefined); // RFC 3339, but not ISO 8601
+    assert.strictEqual(parse("2021-W36"), undefined); // ISO 8601 week
+    assert.strictEqual(parse("2021-W36-1"), undefined); // ISO 8601 week with weekday
+    assert.strictEqual(parse("--09-06"), undefined); // ISO 8601 date without year
+    assert.strictEqual(parse("2021-249"), undefined); // ISO 8601 ordinal date
+  });
+  it("returns the specified fallback value for noncompliant input", () => {
+    assert.strictEqual(parse("2001-01-01T00:00:00.123+00", null), null); // ISO 8601, but not Chrome or Node
+    assert.strictEqual(parse("2001-01-01T00:00:00.123-01", null), null); // ISO 8601, but not Chrome or Node
+    assert.strictEqual(parse("2001-01-01 00:00:00.123Z", null), null); // RFC 3339, but not ISO 8601
+    assert.strictEqual(parse("2001-01-01t00:00:00.123Z", null), null); // RFC 3339, but not ISO 8601
+    assert.strictEqual(parse("2021-W36", null), null); // ISO 8601 week
+    assert.strictEqual(parse("2021-W36-1", null), null); // ISO 8601 week with weekday
+    assert.strictEqual(parse("--09-06", null), null); // ISO 8601 date without year
+    assert.strictEqual(parse("2021-249", null), null); // ISO 8601 ordinal date
+  });
+  it("invokes the fallback function for noncompliant input", () => {
+    const error = () => { throw new RangeError("invalid date"); };
+    assert.throws(() => parse("2001-01-01T00:00:00.123+00", error)); // ISO 8601, but not Chrome or Node
+    assert.throws(() => parse("2001-01-01T00:00:00.123-01", error)); // ISO 8601, but not Chrome or Node
+    assert.throws(() => parse("2001-01-01 00:00:00.123Z", error)); // RFC 3339, but not ISO 8601
+    assert.throws(() => parse("2001-01-01t00:00:00.123Z", error)); // RFC 3339, but not ISO 8601
+    assert.throws(() => parse("2021-W36", error)); // ISO 8601 week
+    assert.throws(() => parse("2021-W36-1", error)); // ISO 8601 week with weekday
+    assert.throws(() => parse("--09-06", error)); // ISO 8601 date without year
+    assert.throws(() => parse("2021-249", error)); // ISO 8601 ordinal date
   });
 });
