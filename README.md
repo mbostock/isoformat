@@ -1,6 +1,6 @@
 # isoformat
 
-Given a Date, **format**(*date*) returns the shortest equivalent ISO 8601 UTC string. If *date* is not a Date instance, it is assumed to represent milliseconds since UNIX epoch, coerced to a number, and then passed to the Date constructor. If *date* is not a valid date, the string `"Invalid Date"` is returned.
+Given a Date, **format**(*date*) returns the shortest equivalent ISO 8601 UTC string. If *date* is not a Date instance, it is assumed to represent milliseconds since UNIX epoch, coerced to a number, and then passed to the Date constructor. If *date* is not a valid date, the string `"Invalid Date"` is returned. (Unlike [*date*.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString), the format function returns a shorter, more human-readable string, and does not throw an error if the *date* is invalid.)
 
 ```js
 import {format} from "isoformat";
@@ -18,7 +18,7 @@ The following forms may be returned by format:
 
 YYYY may also be represented as +YYYYYY or -YYYYYY.
 
-Given an ISO 8601 date or date-time string, **parse**(*string*) returns an equivalent Date instance. This is equivalent to passing the given *string* to the Date constructor while validating the input against the ISO 8601 format, thereby ensuring consistent representation and behavior across environments.
+Given an ISO 8601 date or date-time string, **parse**(*string*) returns an equivalent Date instance. If *string* is not a valid ISO 8601 date or date-time string, returns null. (Unlike passing the given *string* to the Date constructor, the parse function validates the input against the ISO 8601 format and thereby ensures consistent representation and behavior across environments.)
 
 ```js
 import {parse} from "isoformat";
