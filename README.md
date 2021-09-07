@@ -24,7 +24,7 @@ The following forms may be returned by format:
 * YYYY-MM-DDTHH:MM:SSZ
 * YYYY-MM-DDTHH:MM:SS.MMMZ
 
-YYYY may also be represented as +YYYYYY or -YYYYYY.
+The year YYYY may also be represented as +YYYYYY or -YYYYYY.
 
 ### parse(*date*, *fallback*)
 
@@ -47,4 +47,4 @@ The following forms are accepted by parse:
 * YYYY-MM-DDTHH:MM:SS.MMM
 * YYYY-MM-DDTHH:MM:SS.MMMZ
 
-The time zone Z may be represented as a literal Z for UTC, or as +HH:MM, -HH:MM, +HHMM, or -HHMM. (The two-digit time zone offset +HH or -HH is not supported; although part of ISO 8601, this format is not recognized by Chrome or Node. And although ISO 8601 does not allow the time zone -00:00, it is allowed here because it is widely supported in implementations.)
+The year YYYY may also be represented as +YYYYYY or -YYYYYY. The time zone Z may be represented as a literal Z for UTC, or as +HH:MM, -HH:MM, +HHMM, or -HHMM. (The two-digit time zone offset +HH or -HH is not supported; although part of ISO 8601, this format is not recognized by Chrome or Node. And although ISO 8601 does not allow the time zone -00:00, it is allowed here because it is widely supported in implementations.)
