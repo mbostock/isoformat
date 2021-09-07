@@ -24,7 +24,7 @@ The following forms may be returned by format:
 * YYYY-MM-DDTHH:MM:SSZ
 * YYYY-MM-DDTHH:MM:SS.MMMZ
 
-The year YYYY may also be represented as +YYYYYY or -YYYYYY.
+The year YYYY may also be represented as +YYYYYY or -YYYYYY. Note that while YYYY and YYYY-MM are valid ISO 8601 date strings, these forms are never returned by format; YYYY can be easily misinterpreted as a number, and YYYY-MM… well, I guess that would be okay, but it felt simpler to stop at YYYY-MM-DD to make it more obvious that it was a date.
 
 ### parse(*date*, *fallback*)
 
