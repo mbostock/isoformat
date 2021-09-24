@@ -21,5 +21,5 @@ function formatYear(year) {
 }
 
 function pad(value, width) {
-  return (value + "").padStart(width, "0");
+  return `${value}`.padStart(width, "0");
 }
